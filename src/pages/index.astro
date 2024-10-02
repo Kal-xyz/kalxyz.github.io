@@ -1,0 +1,268 @@
+---
+import { ModeToggle } from '@/components/ModeToggle';
+import '@/styles/globals.css';
+import { Button } from "@/components/ui/button"
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import { faUser, faCog } from '@fortawesome/free-solid-svg-icons';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+---
+
+<script is:inline>
+	const getThemePreference = () => {
+		if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+			return localStorage.getItem('theme');
+		}
+		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	};
+	const isDark = getThemePreference() === 'dark';
+	document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+ 
+	if (typeof localStorage !== 'undefined') {
+		const observer = new MutationObserver(() => {
+			const isDark = document.documentElement.classList.contains('dark');
+			localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+		});
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+	}
+</script>
+<html lang="en">
+	<body>
+		<nav class="navbar">
+			<div class="navbar-content content-width">
+				<div class="navbar-buttons">
+					<a href="https://kalxyz.com/discord" target="_blank" rel="noopener noreferrer">
+						<Button variant="outline" icon="discord" id="Discord">Discord</Button>
+					</a>
+					<a href="https://twitter.com/kalxyz" target="_blank" rel="noopener noreferrer">
+						<Button variant="outline" icon="twitter" id="Twitter">Twitter</Button>
+					</a>
+					<a href="https://www.youtube.com/@kalxyz" target="_blank" rel="noopener noreferrer">
+						<Button variant="outline" icon="youtube" id="Youtube">YouTube</Button>
+					</a>
+					<a href="https://www.reddit.com/u/kalxyz" target="_blank" rel="noopener noreferrer">
+						<Button variant="outline" icon="reddit" id="Reddit">Reddit</Button>
+					</a>
+				</div>
+				<div class="mode-toggle-container">
+					<ModeToggle client:load/>
+				</div>
+			</div>
+		</nav>
+		<header class="hero">
+			<h1 class="gradient-text">Kal's Website</h1>
+		</header>
+		<div class="main-content">
+			<div class="content-box">
+				<p>Hello! I am Kal, a high school (3rd year) computer science student from Macedonia. Sort of a computer nerd, 
+				especially when it comes to building PCs or messing with Windows. (Some Linux stuff sometimes, as well)</p>
+
+				<p>I am currently learning Javascript, as well as a bit of Astro and React. This website is mostly
+				just a personal project for now. I might add some more stuff here later on.</p>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+  import { library, dom } from '@fortawesome/fontawesome-svg-core'
+  import { faUser, faCog } from '@fortawesome/free-solid-svg-icons'
+
+  library.add(faUser, faCog)
+  dom.watch()
+</script>
+
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@700&family=Roboto:wght@400;700&display=swap');
+
+	body {
+		font-family: 'Roboto', sans-serif;
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	.mode-toggle-container {
+		position: static;
+	}
+	@media (max-width: 768px) {
+		.mode-toggle-container {
+		top: 10px;
+		right: 10px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.mode-toggle-container {
+		position: static;
+		text-align: center;
+		margin-top: 10px;
+		}
+	}
+	.website-title {
+		font-size: 4rem;
+		font-weight: bold;
+		background: linear-gradient( ,#15fa8f, #3b5fd4);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+      	text-fill-color: transparent;
+	}
+	.main-content {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 20px;
+	}
+
+	.content-box {
+		background-color: rgba(112, 110, 110, 0.233);
+		border-radius: 12px;
+		padding: 20px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	p {
+		margin-bottom: 15px;
+	}
+
+	.hero {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0 0 1rem 0;
+		background-color: rgba(200, 200, 200, 0.1);
+		margin-bottom: 1rem;
+	}
+
+	.gradient-text {
+		font-family: 'Kanit', sans-serif;
+		font-size: 5rem;
+		font-weight: bold;
+		background: linear-gradient( #fa15e5, #122ca3, #1bc3ec );
+		background-size: 300% 300%;
+		color: transparent;
+		-webkit-background-clip: text;
+		background-clip: text;
+		animation: gradientAnimation 5s ease infinite;
+		padding: 1rem 2rem;
+		border-radius: 15px;
+		background-color: rgba(200, 200, 200, 0.1);
+	}
+	
+	@keyframes gradientAnimation {
+		0% {
+			background-position: 0% 0%;
+		}
+		50% {
+			background-position: 100% 100%;
+		}
+		100% {
+			background-position: 0% 0%;
+		}
+	}
+
+	:global(.rounded-md) {
+		border-radius: 0.375rem;
+	}
+
+	:global(.rounded-sm) {
+		border-radius: 0.275rem;
+	}
+
+	:global(.rounded-full) {
+		border-radius: 5px;
+	}
+
+	.navbar {
+		background-color: var(--navbar-bg);
+		padding: 0.5rem 0;
+		border-bottom: 1px solid var(--navbar-border);
+	}
+
+	.navbar-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 1rem;
+	}
+
+	.navbar-buttons {
+		display: flex;
+		gap: 0.5rem;
+		margin-right: auto;
+		margin-left: -14.8rem;
+	}
+
+	.mode-toggle-container {
+		margin-left: auto;
+		margin-right: -14.8rem;
+	}
+
+	.hero {
+		padding: 0 0 1rem 0;
+		margin-bottom: 1rem;
+	}
+
+	:root {
+		--navbar-bg: rgba(255, 255, 255, 0.8);
+		--navbar-border: rgba(0, 0, 0, 0.1);
+	}
+
+	.dark {
+		--navbar-bg: rgba(0, 0, 0, 0.8);
+		--navbar-border: rgba(255, 255, 255, 0.1);
+	}
+
+	.content-width {
+		max-width: 80ch;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+
+	@media (max-width: 768px) {
+		.navbar-content {
+			flex-direction: column;
+			padding: 0;
+		}
+
+		.navbar-buttons {
+			margin-right: 0;
+			margin-left: 0;
+			margin-bottom: 0.5rem;
+		}
+
+		.mode-toggle-container {
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	.navbar-buttons a {
+		text-decoration: none;
+		color: inherit;
+	}
+	
+	#Discord:hover
+	{
+		background-color: #7289DA;
+	}
+	#Twitter:hover
+	{
+		background-color: #1DA1F2;
+	}
+	#Youtube:hover
+	{
+		background-color: #FF0000;
+	}
+	#Reddit:hover
+	{
+		background-color: #FF5700;
+	}
+
+	body {
+  width: auto; 
+  min-width: 50vh; 
+  max-width: 100%;  /* kako kur raboti ova? */
+}
+
+
+</style>
